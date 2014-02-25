@@ -12,7 +12,8 @@
 import java.util.ArrayList;
 public class Player {
     private String name;
-    private int id; //0 for white and 1 for black
+    private int playerId; //0 for white and 1 for black
+    private int opponentId;
     private String color;
     private double playerScore;
     private ArrayList<Piece> activePieces;
@@ -21,28 +22,64 @@ public class Player {
     protected Board board;
     
     
-    public Player(Board board, String name, String color, int id)
+    public Player(Board board, int id)
     {
-        this.name = name;
-        this.color = color;
         this.board = board;
-        this.id = id;
+        setPlayerandOpponentId(id);
+        setPlayerColor(id);
+        setPlayerName(id);
         activePieces = new ArrayList();
         legalMoves = new ArrayList();
         threatenedPieces = new ArrayList();
-        setOriginalActivePieces();
+        setOriginalActivePieces(id);
     }
     
-    private void setOriginalActivePieces()
+    private void setPlayerandOpponentId(int id)
     {
-        if (color == "white")
+        if (id == 0)
+        {
+            playerId = 0;
+            opponentId = 1;
+        }
+        else if (id == 1)
+        {
+            id = 1;
+            opponentId = 0;
+        }
+        else
+            System.out.println("Problem setting Player/Opponent Id...");
+    }
+    
+    private void setPlayerColor(int id)
+    {
+        if (id == 0)
+            color = "white";
+        else if (id == 1)
+            color = "black";
+        else
+            System.out.println("Problem setting Player color..");
+    }
+    
+    private void setPlayerName(int id)
+    {
+        if (id == 0)
+            name = "Player 1";
+        else if (id == 1)
+            name = "Player 2";
+        else
+            System.out.println("Problem setting Player name...");
+    }
+    
+    private void setOriginalActivePieces(int id)
+    {
+        if (id == 0)
         {
             for ( int i = 0; i < 16; i++)
             {
                 activePieces.add(board.getSquareArray(i).getOccupant() );
             }
         }
-        else if ( color == "black")
+        else if ( id == 1)
         {
             for ( int i = 48; i < 64; i++ )
             {
@@ -78,10 +115,10 @@ public class Player {
             Piece piece = threatenedPieces.get(i);
             playerScore -= (piece.getValue()*0.5);
         }
-        for (int i = 0; i < board.getPlayer(Math.abs(id-1)).threatenedPieces.size();
+        for (int i = 0; i < board.getPlayer(Math.abs(playerId-1)).threatenedPieces.size();
                 i++)
         {
-            Piece piece = board.getPlayer(Math.abs(id-1)).threatenedPieces.get(i);
+            Piece piece = board.getPlayer(Math.abs(playerId-1)).threatenedPieces.get(i);
             playerScore += (piece.getValue()*0.25);
         }
         //could also add incentive for occupying center squares
@@ -140,7 +177,7 @@ public class Player {
     public void updateThreatenedPieces()
     {
         threatenedPieces.clear();
-        ArrayList<Square[]> opponentMoves = board.getPlayer(Math.abs(id-1)).getLegalMoves();
+        ArrayList<Square[]> opponentMoves = board.getPlayer(Math.abs(playerId-1)).getLegalMoves();
         for (int i = 0; i < opponentMoves.size(); i++)
         {
             Piece tempPiece = opponentMoves.get(i)[1].getOccupant();

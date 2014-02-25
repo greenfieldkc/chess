@@ -32,8 +32,8 @@ public class Board {
         }
         this.setOriginalPosition();
         playerArray = new Player[ 2 ];
-        playerArray[0] = new Player(this, "Player1", "white", 0);
-        playerArray[1] = new ComputerPlayer(this, "Player2", "black", 1);
+        playerArray[0] = new Player(this, 0);
+        playerArray[1] = new ComputerPlayer(this, 1);
     }
     
     public Board getBoardCopy()

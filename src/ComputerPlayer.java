@@ -8,13 +8,19 @@
  *
  * @author kylegreenfield
  */
+
+/*This class provides a basic ComputerPlayer using brute force search of
+possible moves for the current turn. The ComputerPlayer recognizes threatened
+pieces, but does not consider the opponent's next move, nor any future moves.
+Does not recognize being in check.
+*/
 import java.util.ArrayList;
 
 public class ComputerPlayer extends Player {
     
-    public ComputerPlayer(Board board, String name, String color, int id)
+    public ComputerPlayer(Board board, int id)
     {
-        super(board, name, color, id);
+        super(board, id);
     }
     
     @Override
@@ -57,9 +63,9 @@ public class ComputerPlayer extends Player {
     
     private void printMove(Square[] move)
     {
-        System.out.println(move[0].getOccupant().toString() + 
-                move[0].getRow() + move[0].getCol() +
-                " to " + move[1].getRow() + move[1].getCol());
+        System.out.println(move[0].getOccupant().toString() + ":   " +
+                move[0].getRow() + "-" + move[0].getCol() +
+                " to " + move[1].getRow() + "-" + move[1].getCol());
     }
     
     private void updateSelectedMove(Square[] newMove, Square[] selectedMove)
