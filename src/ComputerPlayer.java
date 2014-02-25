@@ -25,24 +25,18 @@ public class ComputerPlayer extends Player {
         setPlayerLegalMoves( findPlayerLegalMoves() );
         printLegalMoves();
         double[] tempScore = {0.0, -200.0}; //player[0] score, player[1] score 
+        Square[] tempMove = new Square[2];
         for (int i = 0; i < legalMoves.size(); i++)
         {
-            Square[] move = new Square[2];
-            move[0] = legalMoves.get(i)[0];
-            move[1] = legalMoves.get(i)[1];
+            tempMove[0] = legalMoves.get(i)[0];
+            tempMove[1] = legalMoves.get(i)[1];
                     
-            double[] newTempScore = testMoveScore(move);
-            printMove(move);
-            if (selectedMove[0] != null)
-            {
-                printMove(selectedMove);
-            }  
+            double[] newTempScore = testMoveScore(tempMove);
             if ((newTempScore[1] - newTempScore[0]) > (tempScore[1] - tempScore[0]))
             {
                 tempScore = newTempScore;
-                updateSelectedMove(move, selectedMove);
+                updateSelectedMove(tempMove, selectedMove);
             }
-            printMove(selectedMove);
         }
         printMove(selectedMove);
         return selectedMove;
@@ -74,21 +68,6 @@ public class ComputerPlayer extends Player {
         selectedMove[1] = newMove[1];
     }
     
-    private void testMove(Square origSquare, Square destSquare, double tempScore, Square[] selectedMove)
-    {
-        Piece tempPiece = origSquare.getOccupant();
-        Piece attackedPiece = destSquare.getOccupant();
-        board.movePiece(origSquare, destSquare);
-        double newScore = getPlayerScore() - board.getPlayer(0).getPlayerScore();
-        if ( newScore > tempScore)
-        {
-            selectedMove[0] = board.findSquareByRowCol(origSquare.getRow(), origSquare.getCol());
-            selectedMove[1] = board.findSquareByRowCol(destSquare.getRow(), destSquare.getCol());
-            tempScore = newScore;
-            System.out.println("selectedMove:  " + selectedMove.toString());
-        }
-        resetBoardToLastMove(origSquare, destSquare, tempPiece, attackedPiece);
-    }
         
     public void printLegalMoves()
     {
@@ -98,13 +77,7 @@ public class ComputerPlayer extends Player {
                     legalMoves.get(i)[1].getRow()+ " "+
                     legalMoves.get(i)[1].getCol());
     }
-    
-    
-    private void testOpponentMove()
-    {
-        
-    }
-    
+
     private void resetBoardToLastMove(Square origSquare, Square destSquare,
             Piece tempPiece, Piece attackedPiece)
     {
