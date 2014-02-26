@@ -12,9 +12,9 @@ import java.util.ArrayList;
  * @author kylegreenfield
  */
 public class Pawn extends Piece {
-    public Pawn( Board board, Square origSquare, String color)
+    public Pawn( Board board, Square origSquare, int id)
     {
-        super( board, origSquare, color);
+        super( board, origSquare, id);
         value = 1;
     }
     
@@ -23,10 +23,10 @@ public class Pawn extends Piece {
     { 
        if ( destSquare.getCol() == getLocation().getCol() )
        {
-           if  ( getColor() == "white" ) 
+           if  ( getId() == 0 ) 
                return ( checkWhiteOneForward( destSquare ) || 
                        checkWhiteTwoForward( destSquare ) );
-           else if ( getColor() == "black" )
+           else if ( getId() == 1 )
                return ( checkBlackOneForward( destSquare ) ||
                        checkBlackTwoForward( destSquare ) );
            else
@@ -35,9 +35,9 @@ public class Pawn extends Piece {
        }
        else
        {
-           if ( ( getColor() == "white" ) )
+           if ( ( getId() == 0 ) )
                return checkWhiteAttack( destSquare );
-           else if ( getColor() == "black" )
+           else if ( getId() == 1 )
                return checkBlackAttack( destSquare );
            else
                //System.out.print( "not valid on either white/black pawn attack methods");
@@ -75,7 +75,7 @@ public class Pawn extends Piece {
         {
             if ( destSquare.getOccupant() == null )
                 return false;
-            else if (destSquare.getOccupant().getColor() == "black")
+            else if (destSquare.getOccupant().getId() == 1)
                 return true;
             else
                 return false;
@@ -110,7 +110,7 @@ public class Pawn extends Piece {
         {
             if (destSquare.getOccupant() == null)
                 return false;
-            else if ( destSquare.getOccupant().getColor() == "white" )
+            else if ( destSquare.getOccupant().getId() == 0 )
                 return true;
             else
                 return false;

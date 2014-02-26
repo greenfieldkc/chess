@@ -11,9 +11,9 @@
 import java.util.ArrayList;
 
 public class Bishop extends Piece {
-    public Bishop( Board board, Square origSquare, String color)
+    public Bishop( Board board, Square origSquare, int id)
     {
-        super( board, origSquare, color);
+        super( board, origSquare, id);
         value = 3;
     }
     

@@ -35,19 +35,7 @@ public class Board {
         playerArray[0] = new Player(this, 0);
         playerArray[1] = new ComputerPlayer(this, 1);
     }
-    
-    public Board getBoardCopy()
-    {
-        Board boardCopy = new Board();
-        for (int i = 0; i < squareArray.length; i++)
-        {
-            boardCopy.squareArray[i].setOccupant(squareArray[i].getOccupant());
-        }
-        boardCopy.playerArray[0] = playerArray[0];
-        boardCopy.playerArray[1] = playerArray[1];
-        return boardCopy;
-    }
-    
+  
     public Square findSquareByRowCol( int row, int col)
     {
         Square returnSquare = null;
@@ -75,26 +63,26 @@ public class Board {
     
     public void setOriginalPosition()
     {
-        squareArray[0].setOccupant( new Rook(this, squareArray[0], "white"));
-        squareArray[1].setOccupant( new Knight(this, squareArray[1], "white"));
-        squareArray[2].setOccupant( new Bishop(this, squareArray[2], "white"));
-        squareArray[3].setOccupant( new Queen(this, squareArray[3], "white"));
-        squareArray[4].setOccupant( new King(this, squareArray[4], "white"));
-        squareArray[5].setOccupant( new Bishop(this, squareArray[5], "white"));
-        squareArray[6].setOccupant( new Knight(this, squareArray[6], "white"));
-        squareArray[7].setOccupant( new Rook(this, squareArray[7], "white"));
+        squareArray[0].setOccupant( new Rook(this, squareArray[0], 0));
+        squareArray[1].setOccupant( new Knight(this, squareArray[1], 0));
+        squareArray[2].setOccupant( new Bishop(this, squareArray[2], 0));
+        squareArray[3].setOccupant( new Queen(this, squareArray[3], 0));
+        squareArray[4].setOccupant( new King(this, squareArray[4], 0));
+        squareArray[5].setOccupant( new Bishop(this, squareArray[5], 0));
+        squareArray[6].setOccupant( new Knight(this, squareArray[6], 0));
+        squareArray[7].setOccupant( new Rook(this, squareArray[7], 0));
         for ( int i = 8 ; i <= 15 ; i++)
-            squareArray[i].setOccupant( new Pawn(this, squareArray[i], "white")) ;
-        squareArray[56].setOccupant( new Rook(this, squareArray[56], "black"));
-        squareArray[57].setOccupant( new Knight(this, squareArray[57], "black"));
-        squareArray[58].setOccupant( new Bishop(this, squareArray[58], "black"));
-        squareArray[59].setOccupant( new Queen(this, squareArray[59], "black"));
-        squareArray[60].setOccupant( new King(this, squareArray[60], "black"));
-        squareArray[61].setOccupant( new Bishop(this, squareArray[61], "black"));
-        squareArray[62].setOccupant( new Knight(this, squareArray[62], "black"));
-        squareArray[63].setOccupant( new Rook(this, squareArray[63], "black"));
+            squareArray[i].setOccupant( new Pawn(this, squareArray[i], 0)) ;
+        squareArray[56].setOccupant( new Rook(this, squareArray[56], 1));
+        squareArray[57].setOccupant( new Knight(this, squareArray[57], 1));
+        squareArray[58].setOccupant( new Bishop(this, squareArray[58], 1));
+        squareArray[59].setOccupant( new Queen(this, squareArray[59], 1));
+        squareArray[60].setOccupant( new King(this, squareArray[60], 1));
+        squareArray[61].setOccupant( new Bishop(this, squareArray[61], 1));
+        squareArray[62].setOccupant( new Knight(this, squareArray[62], 1));
+        squareArray[63].setOccupant( new Rook(this, squareArray[63], 1));
         for ( int i = 48 ; i <= 55 ; i++)
-            squareArray[i].setOccupant( new Pawn(this, squareArray[i], "black")) ;    
+            squareArray[i].setOccupant( new Pawn(this, squareArray[i], 1)) ;    
     }
     
     public void movePiece( Square origSquare, Square destSquare )
@@ -112,16 +100,16 @@ public class Board {
             origSquare.clearOccupant();
             piece.setLocation(destSquare);
         }
-        else if ( (piece.getColor() == "white") && 
-                (destSquare.getOccupant().getColor() == "black") )
+        else if ( (piece.getId() == 0) && 
+                (destSquare.getOccupant().getId() == 1) )
         {
             playerArray[1].deletePiece(destSquare.getOccupant());
             destSquare.setOccupant( origSquare.getOccupant() );
             origSquare.clearOccupant();
             piece.setLocation(destSquare);
         }
-        else if ( (piece.getColor() == "black") && 
-                (destSquare.getOccupant().getColor() == "white") )
+        else if ( (piece.getId() == 1) && 
+                (destSquare.getOccupant().getId() == 0) )
         {
             playerArray[0].deletePiece(destSquare.getOccupant());
             destSquare.setOccupant( origSquare.getOccupant() );
@@ -156,7 +144,6 @@ public class Board {
     public void executeTurn(Player player)
     {
         updatePlayerStates();
-        player.setPlayerLegalMoves(player.findPlayerLegalMoves());
         Square[] move = player.getMove();
         this.movePiece(move[0], move[1]);
         this.displayBoard();
@@ -186,10 +173,12 @@ public class Board {
     }
     
     public static void main( String[] args )
+            ///doesn't account for being in check or checkmate scenarios, just
+            ///fixed number of turns
     {
         Board board = new Board();
         board.displayBoard();
-        for (int i = 1; i < 11; i++)
+        for (int i = 1; i < 15; i++)
         {
             if (i%2 == 1)
                 board.executeTurn(playerArray[0]);

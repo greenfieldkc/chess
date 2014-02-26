@@ -12,9 +12,9 @@ import java.util.ArrayList;
  * @author kylegreenfield
  */
 public class Rook extends Piece {
-    public Rook( Board board, Square origSquare, String color)
+    public Rook( Board board, Square origSquare, int id)
     {
-        super( board, origSquare, color);
+        super( board, origSquare, id);
         value = 5;
     }
     

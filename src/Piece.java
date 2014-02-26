@@ -15,14 +15,16 @@ import java.util.ArrayList;
 public abstract class Piece {
     private Square location;
     private String color;
+    private int ownerId;
     protected Board board;
     protected int value;
     protected ArrayList<Square[]> legalMoves;
     
-    public Piece( Board board, Square origSquare, String color )
+    public Piece( Board board, Square origSquare, int id )
     {
+        ownerId = id;
         location = origSquare;
-        this.color = color;
+        setColor();
         this.board = board;
     }
     
@@ -38,9 +40,22 @@ public abstract class Piece {
         newLocation.setOccupant(this);
     }
     
+    private void setColor()
+    {
+        if (ownerId == 0)
+            color = "white";
+        else if (ownerId == 1)
+            color = "black";
+    }
+    
     public String getColor()
     {
         return color;
+    }
+    
+    public int getId()
+    {
+        return ownerId;
     }
     
     public int getValue()

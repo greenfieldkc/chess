@@ -12,9 +12,9 @@ import java.util.ArrayList;
  * @author kylegreenfield
  */
 public class Queen extends Piece {
-    public Queen( Board board, Square origSquare, String color)
+    public Queen( Board board, Square origSquare, int id)
     {
-        super( board, origSquare, color);
+        super( board, origSquare, id);
         value = 9;
     }
     
@@ -156,8 +156,10 @@ public class Queen extends Piece {
         int c = getLocation().getCol();
         for (int i = 1; i <= 8; i++)
         {
+            //checking rook-like squares
             movesToCheck.add(board.findSquareByRowCol(i, c));
             movesToCheck.add(board.findSquareByRowCol(r, i));
+            //checking bishop-like squares
             if ( board.checkValidSquare( r - i, c - i) )
                 movesToCheck.add(board.findSquareByRowCol(r-i, c-i));
             if ( board.checkValidSquare( r + i, c + i) )

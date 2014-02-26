@@ -11,9 +11,9 @@
 
 import java.util.ArrayList;
 public class King extends Piece {
-    public King( Board board, Square origSquare, String color)
+    public King( Board board, Square origSquare, int id)
     {
-        super( board, origSquare, color);
+        super( board, origSquare, id);
         value = 200;
     }
     

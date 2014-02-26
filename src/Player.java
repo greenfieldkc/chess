@@ -103,11 +103,7 @@ public class Player {
         for (int i = 0; i < activePieces.size(); i++)
         {   
             Piece piece = activePieces.get(i);
-            //System.out.println();
-            //System.out.println("Piece in updatePlayerScore: " + piece.getColor() +
-            //        piece.toString());
             playerScore += piece.getValue();
-            //System.out.println("New playerScore end of if: " + playerScore);
         }
         playerScore += (tempLegalMoves.size() * 0.5);
         for (int i = 0; i < threatenedPieces.size(); i++)
@@ -129,10 +125,8 @@ public class Player {
         ArrayList<Square[]> tempLegalMoves = new ArrayList<Square[]>();
         for (int i = 0; i < activePieces.size(); i++)
         {
-            //System.out.println("activePieces" + activePieces.get(i).toString());
             Piece tempPiece = activePieces.get(i);
             tempLegalMoves.addAll(tempPiece.findPieceLegalMoves());
-            //System.out.println("legalmove size: " + legalMoves.size());
         }
         return tempLegalMoves;
     }
